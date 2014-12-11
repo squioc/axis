@@ -49,13 +49,17 @@ func TestTimeAfter(t *testing.T) {
     before := time.Unix(time.Now().Unix(), 0)
     expected := before.Add(duration)
     c := provider.After(Distance(duration))
-    position := <-c
-    after := time.Unix(int64(position), 0)
 
 
     // Assert
-    if expected.After(after) {
-        t.Fatalf("The function After must fire the position after the minimal expected duration")
+    select {
+        case position := <-c:
+            after := time.Unix(int64(position), 0)
+            if expected.After(after) {
+                t.Fatalf("The function After must fire the position after the minimal expected duration")
+            }
+        case <-time.After(2*time.Second):
+            t.Fatalf("Timeout. the test exceed the expected duration")
     }
 }
 
@@ -69,15 +73,19 @@ func TestTimeAfterChan(t *testing.T) {
     before := time.Unix(time.Now().Unix(), 0)
     expected := before.Add(duration)
     watcher := provider.AfterChan(Distance(duration), c)
-    position := <-c
-    after := time.Unix(int64(position), 0)
 
 
     // Assert
-    if watcher == nil {
-        t.Fatalf("The function AfterChan must return a watcher")
-    }
-    if expected.After(after) {
-        t.Fatalf("The function After must fire the position after the minimal expected duration")
+    select {
+        case position := <-c:
+            after := time.Unix(int64(position), 0)
+            if watcher == nil {
+                t.Fatalf("The function AfterChan must return a watcher")
+            }
+            if expected.After(after) {
+                t.Fatalf("The function After must fire the position after the minimal expected duration")
+            }
+        case <-time.After(2*time.Second):
+            t.Fatalf("Timeout. the test exceed the expected duration")
     }
 }

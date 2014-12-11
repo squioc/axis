@@ -18,14 +18,18 @@ func TestTimeWatcherReset(t *testing.T) {
 
     // Act
     actual = watcher.Reset(Distance(duration2))
-    up = <-timer.C
 
     // Assert
-    if !actual {
-        t.Fatalf("Cannot reset the time watcher")
-    }
-    if up.Before(now.Add(4*time.Second)) {
-        t.Fatalf("The timer raise event before the expected date")
+    select {
+        case up = <-timer.C:
+            if !actual {
+                t.Fatalf("Cannot reset the time watcher")
+            }
+            if up.Before(now.Add(4*time.Second)) {
+                t.Fatalf("The timer raise event before the expected date")
+            }
+        case <-time.After(5*time.Second):
+            t.Fatalf("Timeout. the test exceed the expected duration")
     }
 }
 
