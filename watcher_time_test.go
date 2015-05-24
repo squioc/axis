@@ -12,7 +12,7 @@ func TestTimeWatcherReset(t *testing.T) {
     duration2 := time.Duration(4*time.Second)
     now := time.Now()
     timer := time.NewTimer(duration1)
-    watcher := newTimeWatcher(timer)
+    watcher := NewTimeWatcher(timer)
     var actual bool
     var up time.Time
 
@@ -37,7 +37,7 @@ func TestTimeWatcherStop(t *testing.T) {
     // Arrange
     duration := time.Duration(2*time.Second)
     timer := time.NewTimer(duration)
-    watcher := newTimeWatcher(timer)
+    watcher := NewTimeWatcher(timer)
     var actual bool
 
     // Act

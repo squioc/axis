@@ -18,7 +18,7 @@ type FakeTime struct {
     mu sync.Mutex
 }
 
-func newFakeTime(position Position) *FakeTime {
+func NewFakeTime(position Position) *FakeTime {
     return &FakeTime{
         position: position,
         timers: make(map[Position][] chan Position),
@@ -30,7 +30,7 @@ func (f *FakeTime) Current() Position {
 }
 
 func (f *FakeTime) Sleep(distance Distance) {
-    f.Update(AddDistance(f.position, distance))
+    f.Update(addDistance(f.position, distance))
 }
 
 func (f *FakeTime) After(distance Distance) <-chan Position {
@@ -43,7 +43,7 @@ func (f *FakeTime) AfterChan(distance Distance, channel chan Position) *FakeTime
     f.mu.Lock()
     defer f.mu.Unlock()
 
-    until := AddDistance(f.position, distance)
+    until := addDistance(f.position, distance)
     f.timers[until] = append(f.timers[until], channel)
     return &FakeTimeWatcher{can_reset: true, can_stop: true}
 }
@@ -63,6 +63,6 @@ func (f *FakeTime) Update(position Position) {
     }
 }
 
-func AddDistance(position Position, distance Distance) Position {
+func addDistance(position Position, distance Distance) Position {
     return Position(int64(position) + int64(distance))
 }

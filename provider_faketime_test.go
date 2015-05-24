@@ -9,7 +9,7 @@ import (
 func TestFakeTimeCurrent(t *testing.T) {
     // Arrange
     position := Position(1000)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     var actual Position
 
     // Act
@@ -25,7 +25,7 @@ func TestFakeTimeUpdate(t *testing.T) {
     // Arrange
     position := Position(1000)
     newPosition := Position(2000)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     var actual Position
 
     // Act
@@ -42,7 +42,7 @@ func TestFakeTimeSleep(t *testing.T) {
     // Arrange
     position := Position(1000)
     distance := Distance(100)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     expected := Position(int64(position) + int64(distance))
     var actual Position
 
@@ -61,7 +61,7 @@ func TestFakeTimeAfter(t *testing.T) {
     position := Position(1000)
     distance := Distance(100)
     newPosition := Position(2000)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     var actual Position
 
     // Act
@@ -84,7 +84,7 @@ func TestFakeTimeAfterChan(t *testing.T) {
     position := Position(1000)
     distance := Distance(100)
     newPosition := Position(2000)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     var actual Position
 
     // Act
@@ -108,7 +108,7 @@ func TestFakeTimeAfterChanWithSleep(t *testing.T) {
     position := Position(1000)
     distance := Distance(100)
     sleepDistance := Distance(200)
-    provider := newFakeTime(position)
+    provider := NewFakeTime(position)
     expected := Position(int64(position) + int64(distance))
     var actual Position
 

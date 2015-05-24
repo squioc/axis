@@ -10,7 +10,7 @@ func TestFakeTimeWatcherReset(t *testing.T) {
     can_reset := true
     can_stop := true
     distance := Distance(0)
-    watcher := newFakeTimeWatcher(can_reset, can_stop)
+    watcher := NewFakeTimeWatcher(can_reset, can_stop)
     var actual bool
 
     // Act
@@ -26,7 +26,7 @@ func TestFaketimeWatcherStop(t *testing.T) {
     // Arrange
     can_reset := true
     can_stop := true
-    watcher := newFakeTimeWatcher(can_reset, can_stop)
+    watcher := NewFakeTimeWatcher(can_reset, can_stop)
     var actual bool
 
     // Act

@@ -6,7 +6,7 @@ type TimeWatcher struct {
     Timer *time.Timer
 }
 
-func newTimeWatcher(timer *time.Timer) *TimeWatcher {
+func NewTimeWatcher(timer *time.Timer) *TimeWatcher {
     return &TimeWatcher{Timer: timer }
 }
 

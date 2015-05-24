@@ -23,5 +23,5 @@ func (t *Time) AfterChan(distance Distance, channel chan Position) *TimeWatcher 
     f := func() {
         channel <- t.Current()
     }
-    return newTimeWatcher(time.AfterFunc(time.Duration(distance), f))
+    return NewTimeWatcher(time.AfterFunc(time.Duration(distance), f))
 }
