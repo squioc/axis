@@ -4,13 +4,6 @@ import (
     "sync"
 )
 
-type Timer struct {
-    position Position
-    distance Distance
-    channel chan Position
-}
-
-type Timers []Timer
 
 type FakeTime struct {
     position Position
