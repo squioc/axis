@@ -4,6 +4,10 @@ A golang library to manipulate generic dimensions (like time or distance).
 
 Inspired by [timetools](https://github.com/mailgun/timetools) from [mailgun](https://github.com/mailgun).
 
+## Documentation:
+
+The documentation is available at [https://godoc.org/github.com/squioc/axis](https://godoc.org/github.com/squioc/axis), thanks to [GoDoc](http://godoc.org)
+
 ## Usage:
 
 ```go
