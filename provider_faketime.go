@@ -45,10 +45,9 @@ func (f *FakeTime) After(distance Distance) <-chan Position {
 // and then sends the new position on the given channel
 func (f *FakeTime) AfterChan(distance Distance, channel chan Position) *FakeTimeWatcher {
     f.mu.Lock()
-    defer f.mu.Unlock()
-
     until := addDistance(f.position, distance)
     f.timers[until] = append(f.timers[until], channel)
+    f.mu.Unlock()
     return &FakeTimeWatcher{can_reset: true, can_stop: true}
 }
 
@@ -57,7 +56,6 @@ func (f *FakeTime) Update(position Position) {
     f.position = position
 
     f.mu.Lock()
-    defer f.mu.Unlock()
     for k, v := range f.timers {
         if k < f.position {
             for _, c := range v {
@@ -66,4 +64,5 @@ func (f *FakeTime) Update(position Position) {
             delete(f.timers, k)
         }
     }
+    f.mu.Unlock()
 }

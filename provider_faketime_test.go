@@ -127,3 +127,17 @@ func TestFakeTimeAfterChanWithSleep(t *testing.T) {
             t.Fatalf("Timeout. the test exceed the expected duration")
     }
 }
+
+func BenchmarkUpdate(b *testing.B) {
+    // Arrange
+    position := Position(0)
+    provider := NewFakeTime(position)
+
+    // Act
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        for j := 0; j < 1000; j++ {
+            provider.Update(Position(j))
+        }
+    }
+}
