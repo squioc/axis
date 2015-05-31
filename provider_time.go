@@ -6,29 +6,29 @@ import "time"
 type Time struct {
 }
 
-// Get the number of seconds elapsed since 1, January 1970
+// Current get the number of seconds elapsed since 1, January 1970
 func (t *Time) Current() Position {
-    return Position(time.Now().Unix())
+	return Position(time.Now().Unix())
 }
 
-// Pause the current goroutine for the given distance
+// Sleep pauses the current goroutine for the given distance
 func (t *Time) Sleep(distance Distance) {
-    time.Sleep(time.Duration(distance))
+	time.Sleep(time.Duration(distance))
 }
 
-// Wait for the given distance to elapse
+// After waits for the given distance to elapse
 // And then sends the new time on the returned channel
 func (t *Time) After(distance Distance) <-chan Position {
-    c := make(chan Position, 1)
-    t.AfterChan(distance, c)
-    return c
+	c := make(chan Position, 1)
+	t.AfterChan(distance, c)
+	return c
 }
 
-// Wait for the given distance to elapse
+// AfterChan waits for the given distance to elapse
 // And then sends the new time on the given channel
 func (t *Time) AfterChan(distance Distance, channel chan Position) *TimeWatcher {
-    f := func() {
-        channel <- t.Current()
-    }
-    return NewTimeWatcher(time.AfterFunc(time.Duration(distance), f))
+	f := func() {
+		channel <- t.Current()
+	}
+	return NewTimeWatcher(time.AfterFunc(time.Duration(distance), f))
 }
