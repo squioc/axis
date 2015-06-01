@@ -23,7 +23,7 @@ func NewFakeTime(position Position) *FakeTime {
 	}
 }
 
-// Current get the current position of the provider
+// Current gets the current position of the provider
 func (f *FakeTime) Current() Position {
 	return f.position
 }
@@ -51,7 +51,7 @@ func (f *FakeTime) AfterChan(distance Distance, channel chan Position) *FakeTime
 	return &FakeTimeWatcher{canReset: true, canStop: true}
 }
 
-// Update set the current position of the provider
+// Update sets the current position of the provider
 func (f *FakeTime) Update(position Position) {
 	f.position = position
 

@@ -6,7 +6,7 @@ import "time"
 type Time struct {
 }
 
-// Current get the number of seconds elapsed since 1, January 1970
+// Current gets the number of seconds elapsed since 1, January 1970
 func (t *Time) Current() Position {
 	return Position(time.Now().Unix())
 }
