@@ -43,7 +43,7 @@ func (f *FakeTime) After(distance Distance) <-chan Position {
 
 // AfterChan simulates a wait for the given distance to elapse
 // and then sends the new position on the given channel
-func (f *FakeTime) AfterChan(distance Distance, channel chan Position) *FakeTimeWatcher {
+func (f *FakeTime) AfterChan(distance Distance, channel chan Position) Watcher {
 	f.mu.Lock()
 	until := addDistance(f.position, distance)
 	f.timers[until] = append(f.timers[until], channel)

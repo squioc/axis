@@ -26,7 +26,7 @@ func (t *Time) After(distance Distance) <-chan Position {
 
 // AfterChan waits for the given distance to elapse
 // And then sends the new time on the given channel
-func (t *Time) AfterChan(distance Distance, channel chan Position) *TimeWatcher {
+func (t *Time) AfterChan(distance Distance, channel chan Position) Watcher {
 	f := func() {
 		channel <- t.Current()
 	}
