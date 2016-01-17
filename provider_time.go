@@ -32,3 +32,8 @@ func (t *Time) AfterChan(distance Distance, channel chan Position) Watcher {
 	}
 	return NewTimeWatcher(time.AfterFunc(time.Duration(distance), f))
 }
+
+// Since return the distance traveled since position
+func (t *Time) Since(position Position) Distance {
+	return Distance(t.Current() - position)
+}

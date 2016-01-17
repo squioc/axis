@@ -7,6 +7,7 @@ type Provider interface {
 	Sleep(Distance)
 	After(Distance) <-chan Position
 	AfterChan(Distance, chan Position) Watcher
+	Since(Position) Distance
 }
 
 // UpdatableProvider is the interface which allow

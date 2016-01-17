@@ -89,3 +89,19 @@ func TestTimeAfterChan(t *testing.T) {
             t.Fatalf("Timeout. the test exceed the expected duration")
     }
 }
+
+func TestTimeSince(t *testing.T) {
+    // Arrange
+    provider := &Time{}
+    expected := Distance(200)
+    position := Position(time.Now().Unix() - int64(expected))
+    var actual Distance
+
+    // Act
+    actual = provider.Since(position)
+
+    // Assert
+    if actual > expected {
+        t.Fatalf("The actual distance is lesser than the expected distance")
+    }
+}

@@ -128,6 +128,23 @@ func TestFakeTimeAfterChanWithSleep(t *testing.T) {
     }
 }
 
+func TestFakeTimeSince(t *testing.T) {
+    // Arrange
+    position := Position(1000)
+    newPosition := Position(1200)
+    provider := NewFakeTime(newPosition)
+    expected := Distance(newPosition - position)
+    var actual Distance
+
+    // Act
+    actual = provider.Since(position)
+
+    // Assert
+    if actual != expected {
+        t.Fatalf("The actual distance mismatches the expected distance")
+    }
+}
+
 func BenchmarkUpdate(b *testing.B) {
     // Arrange
     position := Position(0)

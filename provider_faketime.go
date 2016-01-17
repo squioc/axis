@@ -51,6 +51,11 @@ func (f *FakeTime) AfterChan(distance Distance, channel chan Position) Watcher {
 	return &FakeTimeWatcher{canReset: true, canStop: true}
 }
 
+// Since returns the distance traveled since position
+func (f *FakeTime) Since(position Position) Distance {
+	return Distance(f.Current() - position)
+}
+
 // Update sets the current position of the provider
 func (f *FakeTime) Update(position Position) {
 	f.position = position
