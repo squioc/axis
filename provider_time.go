@@ -25,7 +25,7 @@ func (t *Time) After(distance Distance) <-chan Position {
 }
 
 // AfterFunc waits for the given distance to elapse
-// And then calls the callback with the new time
+// And then calls the callback 
 func (t *Time) AfterFunc(distance Distance, callback func()) Watcher {
 	return NewTimeWatcher(time.AfterFunc(time.Duration(distance), callback))
 }

@@ -42,7 +42,7 @@ func (f *FakeTime) After(distance Distance) <-chan Position {
 }
 
 // AfterFunc simulates a wait for the given distance to elapse
-// and then calls the callback with the new position
+// and then calls the callback
 func (f *FakeTime) AfterFunc(distance Distance, callback func()) Watcher {
 	f.mu.Lock()
 	until := addDistance(f.position, distance)
