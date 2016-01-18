@@ -6,6 +6,7 @@ type Provider interface {
 	Current() Position
 	Sleep(Distance)
 	After(Distance) <-chan Position
+	AfterFunc(Distance, func(Position)) Watcher
 	AfterChan(Distance, chan Position) Watcher
 	Since(Position) Distance
 }

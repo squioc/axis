@@ -63,6 +63,35 @@ func TestTimeAfter(t *testing.T) {
     }
 }
 
+func TestTimeAfterFunc(t *testing.T) {
+    // Arrange
+    provider := &Time{}
+    duration := time.Second
+    c := make(chan Position, 1)
+
+    // Act
+    before := time.Unix(time.Now().Unix(), 0)
+    expected := before.Add(duration)
+    watcher := provider.AfterFunc(Distance(duration), func() {
+        c <- provider.Current()
+    })
+
+
+    // Assert
+    select {
+        case position := <-c:
+            after := time.Unix(int64(position), 0)
+            if watcher == nil {
+                t.Fatalf("The function AfterChan must return a watcher")
+            }
+            if expected.After(after) {
+                t.Fatalf("The function After must fire the position after the minimal expected duration")
+            }
+        case <-time.After(2*time.Second):
+            t.Fatalf("Timeout. the test exceed the expected duration")
+    }
+}
+
 func TestTimeAfterChan(t *testing.T) {
     // Arrange
     provider := &Time{}

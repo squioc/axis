@@ -9,9 +9,9 @@ type FakeTime struct {
 	// position gives the position of the faketime provider
 	position Position
 
-	// timers represents specific points in the time
-	// it throws their position on a channel when it reaches them
-	timers map[Position][]chan Position
+	// stops represents specific points in the time
+	// it calls the given function when it reaches them
+	stops map[Position][]func()
 	mu     sync.Mutex
 }
 
@@ -19,7 +19,7 @@ type FakeTime struct {
 func NewFakeTime(position Position) *FakeTime {
 	return &FakeTime{
 		position: position,
-		timers:   make(map[Position][]chan Position),
+		stops:   make(map[Position][]func()),
 	}
 }
 
@@ -41,14 +41,22 @@ func (f *FakeTime) After(distance Distance) <-chan Position {
 	return c
 }
 
+// AfterFunc simulates a wait for the given distance to elapse
+// and then calls the callback with the new position
+func (f *FakeTime) AfterFunc(distance Distance, callback func()) Watcher {
+	f.mu.Lock()
+	until := addDistance(f.position, distance)
+	f.stops[until] = append(f.stops[until], callback)
+	f.mu.Unlock()
+	return &FakeTimeWatcher{canReset: true, canStop: true}
+}
+
 // AfterChan simulates a wait for the given distance to elapse
 // and then sends the new position on the given channel
 func (f *FakeTime) AfterChan(distance Distance, channel chan Position) Watcher {
-	f.mu.Lock()
-	until := addDistance(f.position, distance)
-	f.timers[until] = append(f.timers[until], channel)
-	f.mu.Unlock()
-	return &FakeTimeWatcher{canReset: true, canStop: true}
+        return f.AfterFunc(distance, func() {
+            channel <- f.Current()
+        })
 }
 
 // Since returns the distance traveled since position
@@ -61,12 +69,12 @@ func (f *FakeTime) Update(position Position) {
 	f.position = position
 
 	f.mu.Lock()
-	for k, v := range f.timers {
+	for k, v := range f.stops {
 		if k < f.position {
 			for _, c := range v {
-				c <- f.position
+				c()
 			}
-			delete(f.timers, k)
+			delete(f.stops, k)
 		}
 	}
 	f.mu.Unlock()

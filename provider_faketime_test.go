@@ -79,6 +79,32 @@ func TestFakeTimeAfter(t *testing.T) {
     }
 }
 
+func TestFakeTimeAfterFunc(t *testing.T) {
+    // Arrange
+    position := Position(1000)
+    distance := Distance(100)
+    newPosition := Position(2000)
+    provider := NewFakeTime(position)
+    var actual Position
+
+    // Act
+    c := make(chan Position, 1)
+    provider.AfterFunc(distance, func() {
+        c <- provider.Current()
+    })
+    provider.Update(newPosition)
+
+    // Assert
+    select {
+        case actual = <-c:
+            if actual < newPosition {
+                t.Fatalf("The actual position was fired too early")
+            }
+        case <-time.After(3*time.Second):
+            t.Fatalf("Timeout. the test exceed the expected duration")
+    }
+}
+
 func TestFakeTimeAfterChan(t *testing.T) {
     // Arrange
     position := Position(1000)
