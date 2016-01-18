@@ -12,14 +12,14 @@ type FakeTime struct {
 	// stops represents specific points in the time
 	// it calls the given function when it reaches them
 	stops map[Position][]func()
-	mu     sync.Mutex
+	mu    sync.Mutex
 }
 
 // NewFakeTime creates a new faketime provider
 func NewFakeTime(position Position) *FakeTime {
 	return &FakeTime{
 		position: position,
-		stops:   make(map[Position][]func()),
+		stops:    make(map[Position][]func()),
 	}
 }
 
@@ -54,9 +54,9 @@ func (f *FakeTime) AfterFunc(distance Distance, callback func()) Watcher {
 // AfterChan simulates a wait for the given distance to elapse
 // and then sends the new position on the given channel
 func (f *FakeTime) AfterChan(distance Distance, channel chan Position) Watcher {
-        return f.AfterFunc(distance, func() {
-            channel <- f.Current()
-        })
+	return f.AfterFunc(distance, func() {
+		channel <- f.Current()
+	})
 }
 
 // Since returns the distance traveled since position
