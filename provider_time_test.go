@@ -14,7 +14,7 @@ func TestTimeCurrent(t *testing.T) {
 	// Act
 	now := time.Unix(time.Now().Unix(), 0)
 	current = provider.Current()
-	date = time.Unix(int64(current), 0)
+	date = time.Unix(int64(current) / 1000, int64(current) % 1000)
 
 	// Assert
 	if now.After(date) {
@@ -119,7 +119,7 @@ func TestTimeSince(t *testing.T) {
 	// Arrange
 	provider := &Time{}
 	expected := Distance(200)
-	position := Position(time.Now().Unix() - int64(expected))
+	position := Position(time.Now().UnixNano() - int64(expected))
 	var actual Distance
 
 	// Act

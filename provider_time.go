@@ -6,9 +6,9 @@ import "time"
 type Time struct {
 }
 
-// Current gets the number of seconds elapsed since 1, January 1970
+// Current gets the number of milliseconds elapsed since 1, January 1970
 func (t *Time) Current() Position {
-	return Position(time.Now().Unix())
+	return Position(time.Now().UnixNano())
 }
 
 // Sleep pauses the current goroutine for the given distance
