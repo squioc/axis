@@ -126,7 +126,7 @@ func TestTimeSince(t *testing.T) {
 	actual = provider.Since(position)
 
 	// Assert
-	if actual > expected {
+	if actual < expected {
 		t.Fatalf("The actual distance is lesser than the expected distance")
 	}
 }
