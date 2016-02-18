@@ -1,7 +1,7 @@
 package axis
 
 // Positionable is the interface for positionable
-// items on a axis
+// items on an axis
 type Positionable interface {
 	Current() Position
 	Since(Position) Distance
